@@ -1,0 +1,88 @@
+/* Conteneur principal sans scroll, fond clair */
+.dashboard-comptable {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center;  <-- on supprime ce centrage */
+  background-color: #f4f4f4;
+  padding: 30px 20px;
+  box-sizing: border-box;
+  animation: fadeIn 0.8s ease-in;
+}
+
+/* Titre animé */
+.dashboard-comptable h2 {
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+  color: #333;
+  font-weight: bold;
+  animation: slideFade 1s ease-out;
+  /* centrer le titre */
+  text-align: left;
+}
+
+/* Section des graphiques alignée à gauche avec léger padding */
+.charts-section {
+  display: flex;
+  justify-content: flex-start; /* aligner à gauche */
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1200px;
+  animation: fadeIn 1.2s ease-in;
+  padding-left: 20px; /* espace depuis le bord gauche */
+  margin-left: 0; /* s’assurer que le bloc ne soit pas décalé */
+}
+
+/* Cartes graphiques avec effet 3D */
+.chart-container {
+  flex: 1 1 45%;
+  min-width: 300px;
+  max-width: 500px;
+  background: linear-gradient(145deg, #ffffff, #e6e6e6);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.1),
+    0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* retirer le décalage à gauche ici */
+  margin-left: 0;
+}
+
+.chart-container:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 15px 30px rgba(0, 0, 0, 0.15),
+    0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Titres des cartes */
+.chart-container h4 {
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  color: #444;
+  font-weight: 600;
+  text-align: center;
+  animation: slideFade 1.2s ease-in-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideFade {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

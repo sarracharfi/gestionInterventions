@@ -1,0 +1,53 @@
+.container {
+    margin-top: 5rem;
+    height: 100%;
+    position: relative;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.copyright {
+    display: flex;
+    justify-content: center;
+}
+
+.copyicon {
+    margin-top: 0.4rem; 
+    margin-right: 0.5rem;
+}
+
+.message {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.media {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.mediaIcon {
+    height: 46px;
+    width: 46px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0.45rem;
+    color: #333;
+    border-radius: 50%;
+    border: 1px solid #333;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: 0.3s;
+}
+
+.mediaIcon:hover {
+    color: #4481eb;
+    border-color: #4481eb;
+}

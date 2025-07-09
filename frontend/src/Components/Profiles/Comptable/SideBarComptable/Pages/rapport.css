@@ -1,0 +1,119 @@
+/* Style général */
+.rapport-container {
+  background-color: #f8f9fc;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  padding: 30px;
+  margin: 40px auto;
+  max-width: 1200px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Titres */
+.rapport-container h2,
+.rapport-container h4 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* Boutons */
+.rapport-container button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 4px 0 #2980b9;
+  transition: 0.3s ease;
+}
+
+.rapport-container button:hover {
+  background-color: #2980b9;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Tableau résumé et factures */
+.rapport-container table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  margin-bottom: 30px;
+}
+
+.rapport-container th,
+.rapport-container td {
+  padding: 12px 14px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.rapport-container thead {
+  background-color: #ecf0f1;
+  font-weight: bold;
+}
+
+.rapport-container tbody tr:hover {
+  background-color: #f1f9ff;
+}
+
+.rapport-container tfoot {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+
+/* Boutons mois */
+.rapport-container .mois-button {
+  padding: 8px 10px;
+  border-radius: 5px;
+  background-color: #000b0d;
+  border: 1px solid #0b0000;
+  cursor: pointer;
+  min-width: 60px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.rapport-container .mois-button.active {
+  background-color: #3498db;
+  color: rgb(10, 0, 0);
+  border-color: #2980b9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.rapport-container .mois-button:hover {
+  background-color: #010c18;
+}
+
+/* Graphiques */
+.rapport-container .recharts-responsive-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .rapport-container {
+    padding: 20px;
+  }
+
+  .rapport-container table {
+    font-size: 12px;
+  }
+
+  .rapport-container button,
+  .rapport-container .mois-button {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}

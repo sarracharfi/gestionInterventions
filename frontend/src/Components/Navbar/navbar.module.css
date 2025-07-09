@@ -1,0 +1,185 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  height: 75px;
+  width: 100%;
+  border-bottom: 1px solid #4481eb;
+  background-color: #000; /* Navbar noire */
+  color: white;
+  position: relative;
+  z-index: 100;
+}
+
+.title {
+  margin-left: 1rem;
+}
+
+.logo {
+  width: 150px;
+  cursor: pointer;
+}
+
+/* Recherche */
+
+.searchContainer {
+  position: relative;
+  display: inline-flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.searchInput {
+  padding: 8px 35px 8px 15px;
+  border: 1px solid #4481eb;
+  border-radius: 20px;
+  outline: none;
+  width: 250px;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #000;
+}
+
+.searchInput:focus {
+  width: 300px;
+  border-color: #04befe;
+}
+
+.searchButton {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4481eb;
+  font-size: 18px;
+}
+
+/* Menu */
+
+.menu {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.menuBtn {
+  display: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* Items du menu */
+
+.menuItems {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.menuItems li {
+  cursor: pointer;
+}
+
+.menuItems a {
+  color: white;
+  text-decoration: none;
+  font-size: 19px;
+}
+
+.active > a {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* Boutons connexion/inscription */
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btnSign, .btnLog {
+  width: 110px;
+  height: 35px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  cursor: pointer;
+  border: 1px solid #4481eb;
+  transition: background 0.3s ease;
+  background-color: #4481eb;
+  color: white;
+}
+
+.btnSign:hover {
+  background: linear-gradient(-45deg, #4481eb, #04befe);
+}
+
+.btnLog {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
+.btnLog:hover {
+  background: linear-gradient(-45deg, #4481eb, #04befe);
+  color: white;
+}
+
+/* Responsive */
+
+@media screen and (max-width: 830px) {
+  .searchContainer {
+    display: none;
+  }
+
+  .menuBtn {
+    display: block;
+  }
+
+  .menuItems {
+    position: absolute;
+    top: 75px;
+    right: 0;
+    background: #000;
+    flex-direction: column;
+    width: 200px;
+    padding: 1rem;
+    gap: 15px;
+    border-radius: 0 0 0 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    display: none;
+  }
+
+  .menuItems.menuOpen {
+    display: flex;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btnSign, .btnLog {
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -1,0 +1,99 @@
+.section {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.section h2 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #3b82f6;
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.roles {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
+  align-items: flex-start;
+  padding: 0 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.roleOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.roles label {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btns {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.btnStyle {
+  padding: 0.75rem 2rem !important;
+  text-transform: none !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  background-color: #3b82f6 !important;
+  color: white !important;
+  border-radius: 8px !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.btnStyle:hover {
+  background-color: #2563eb !important;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #3b82f6;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.closeButton:hover {
+  color: #111827;
+  transform: rotate(90deg) scale(1.1);
+}

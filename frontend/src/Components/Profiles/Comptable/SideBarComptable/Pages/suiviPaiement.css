@@ -1,0 +1,100 @@
+.suivi-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center; /* centre horizontalement le contenu */
+}
+
+/* Conteneur scrollable autour du tableau */
+.table-wrapper {
+  max-height: 400px; /* hauteur max pour le scroll */
+  overflow-y: auto; /* scroll vertical automatique */
+  overflow-x: hidden; /* pas de scroll horizontal */
+  -webkit-overflow-scrolling: touch; /* scroll tactile fluide iOS */
+  width: 100%; /* prends toute la largeur dispo */
+  max-width: 1000px; /* limite largeur max */
+  padding-right: 15px; /* espace pour scrollbar */
+  box-sizing: content-box; /* padding hors de la largeur */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Scrollbar fine et claire WebKit */
+.table-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.3);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* Scrollbar fine Firefox */
+.table-wrapper {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 100, 100, 0.3) transparent;
+}
+
+/* Boutons filtre */
+.filtre-buttons {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.filtre-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  transition: all 0.3s;
+}
+
+.filtre-buttons button.active {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.table-paiement {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table-paiement th, 
+.table-paiement td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-paiement th {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.badge.payee {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.badge.impayee {
+  background-color: #f8d7da;
+  color: #721c24;
+}
