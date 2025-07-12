@@ -1,102 +1,99 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
- import { FaEdit, FaTrash } from 'react-icons/fa';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./suiviPaiement.css";
 
-
-const API_URL = 'http://localhost:3000/api/factures';
+const API_URL = "http://localhost:3000/api/factures";
 
 const SuiviPaiement = () => {
   const [factures, setFactures] = useState([]);
-  const [filtre, setFiltre] = useState('toutes');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [filterPayee, setFilterPayee] = useState("toutes"); // 'toutes' | 'payee' | 'impayee'
+
+  // Récupérer les factures
+  const fetchFactures = async () => {
+    try {
+      const res = await axios.get(API_URL);
+      setFactures(res.data);
+    } catch (error) {
+      console.error("Erreur lors du chargement des factures :", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchFactures = async () => {
-      try {
-        setLoading(true);
-        const res = await axios.get(API_URL);
-        const facturesFormatees = res.data.map(facture => ({
-          ...facture,
-          montantTTC: typeof facture.montantTTC === 'string' 
-            ? parseFloat(facture.montantTTC) 
-            : facture.montantTTC,
-          dateEmission: facture.dateEmission 
-            ? new Date(facture.dateEmission).toLocaleDateString() 
-            : 'Non spécifiée'
-        }));
-        setFactures(facturesFormatees);
-      } catch (err) {
-        console.error('Erreur chargement des factures:', err);
-        setError('Erreur lors du chargement des factures');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchFactures();
   }, []);
 
-  const facturesFiltrees = factures.filter(facture => {
-    if (filtre === 'payees') return facture.estPayee;
-    if (filtre === 'impayees') return !facture.estPayee;
-    return true;
+  // Filtrer les factures selon statut paiement
+  const facturesFiltres = factures.filter((facture) => {
+    if (filterPayee === "payee") return facture.estPayee === true;
+    if (filterPayee === "impayee") return facture.estPayee === false;
+    return true; // toutes
   });
 
-  if (loading) return <div className="loading">Chargement en cours...</div>;
-  if (error) return <div className="error">{error}</div>;
+  // Fonction pour sécuriser l'affichage des montants (cast en nombre)
+  const formatMontant = (valeur) => {
+    const num = Number(valeur);
+    return isNaN(num) ? "0.00" : num.toFixed(2);
+  };
+
+  // Fonction pour afficher un code suivi valide ou fallback
+  const afficherCodeSuivi = (facture) => {
+    if (facture.codeSuivi && facture.codeSuivi.trim() !== "") {
+      return facture.codeSuivi;
+    }
+    // fallback format FACYYYYMMDD-XXXX
+    const datePart = facture.dateEmission
+      ? facture.dateEmission.slice(0, 10).replace(/-/g, "")
+      : "00000000";
+    return `FAC${datePart}-XXXX`;
+  };
 
   return (
     <div className="suivi-container">
       <h2>Suivi des paiements</h2>
 
-      <div className="filtre-buttons">
-        <button 
-          onClick={() => setFiltre('toutes')} 
-          className={filtre === 'toutes' ? 'active' : ''}
+      <div className="filter-section">
+        <label>Filtrer par statut :</label>
+        <select
+          value={filterPayee}
+          onChange={(e) => setFilterPayee(e.target.value)}
         >
-          Toutes
-        </button>
-        <button 
-          onClick={() => setFiltre('payees')} 
-          className={filtre === 'payees' ? 'active' : ''}
-        >
-          Payées
-        </button>
-        <button 
-          onClick={() => setFiltre('impayees')} 
-          className={filtre === 'impayees' ? 'active' : ''}
-        >
-          Impayées
-        </button>
+          <option value="toutes">Toutes</option>
+          <option value="payee">Payées</option>
+          <option value="impayee">Non payées</option>
+        </select>
       </div>
 
-      <table className="table-paiement">
+      <table className="facture-table">
         <thead>
           <tr>
-            <th>Client</th>
+            <th>Code suivi</th>
             <th>Description</th>
-            <th>Date</th>
-            <th>Montant TTC</th>
-            <th>Statut</th>
+            <th>Client</th>
+            <th>Montant TTC (€)</th>
+            <th>Statut paiement</th>
           </tr>
         </thead>
         <tbody>
-          {facturesFiltrees.map((facture) => (
-            <tr key={facture.id || facture._id}>
-              <td>{facture.clientNom || 'Non spécifié'}</td>
-              <td>{facture.description || 'Aucune description'}</td>
-              <td>{facture.dateEmission}</td>
-              <td>
-                {typeof facture.montantTTC === 'number' 
-                  ? facture.montantTTC.toFixed(2) + ' €'
-                  : 'Montant invalide'}
+          {facturesFiltres.length === 0 && (
+            <tr>
+              <td colSpan="5" style={{ textAlign: "center" }}>
+                Aucune facture à afficher.
               </td>
+            </tr>
+          )}
+
+          {facturesFiltres.map((facture) => (
+            <tr key={facture.id || facture._id}>
+              <td>{afficherCodeSuivi(facture)}</td>
+              <td>{facture.description || "-"}</td>
+              <td>{facture.clientNom || "-"}</td>
+              <td>{formatMontant(facture.montantTTC)} €</td>
               <td>
-                <span className={`badge ${facture.estPayee ? 'payee' : 'impayee'}`}>
-                  {facture.estPayee ? 'Payée' : 'Impayée'}
-                </span>
+                {facture.estPayee ? (
+                  <span className="payee">Payée</span>
+                ) : (
+                  <span className="impayee">Non payée</span>
+                )}
               </td>
             </tr>
           ))}

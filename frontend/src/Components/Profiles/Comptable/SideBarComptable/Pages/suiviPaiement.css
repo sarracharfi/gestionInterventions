@@ -1,0 +1,69 @@
+.suivi-container {
+  padding: 30px;
+  background-color: #f9f9f9;
+}
+
+.filtre-buttons button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  background-color: #eee;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #444;
+}
+
+.filtre-buttons button:hover {
+  background-color: #d0d0d0;
+}
+
+.factures-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.factures-table th,
+.factures-table td {
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.factures-table th {
+  background-color: #f1f5f9;
+  font-weight: 700;
+  color: #555;
+}
+
+.badge {
+  padding: 5px 12px;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  user-select: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  min-width: 80px;
+}
+
+.badge.payee {
+  background-color: #6fcf97; /* vert pastel */
+  color: #1b4332; /* vert foncé pour contraste */
+  box-shadow: 0 4px 8px rgba(111, 207, 151, 0.5);
+}
+
+.badge.impayee {
+  background-color: #f9a8a8; /* rouge pastel clair */
+  color: #7f1d1d; /* rouge foncé pour contraste */
+  box-shadow: 0 4px 8px rgba(249, 168, 168, 0.5);
+}

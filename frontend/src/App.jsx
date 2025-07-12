@@ -26,7 +26,9 @@ import FormulaireClient from './Components/Formulaires/FormulaireClient/Formulai
 import SuiviTechnicienClient from './Components/Profiles/Client/SideBarClient/Pages/suiviTechnicien';
 import RendezVousClient from './Components/Profiles/Client/SideBarClient/Pages/Rendez-vous';
 import SuiviInterventionTechnicien from './Components/Profiles/Technicien/SideBarTechnicien/Pages/SuiviInterventionTechnicien';
- 
+import SuiviPaiement from './Components/Profiles/Comptable/SideBarComptable/Pages/suiviPaiement';
+import SuiviFacturesClient from './Components/Profiles/Client/SideBarClient/Pages/SuiviFacturesClientt';
+  
 function App() {
   return (
     <Router>
@@ -50,6 +52,7 @@ function App() {
           <Route path="factures" element={<Facture />} />
           <Route path="rapports-financiers" element={<Rapport />} />
           <Route path="parametres-facturation" element={<RendezVous />} />
+             <Route path="suivi-paiements" element={<SuiviPaiement />} />
         </Route>
 
         {/* Routes du profil technicien */}
@@ -68,7 +71,7 @@ function App() {
           <Route path="creer-intervention" element={<Demande />} />
           <Route path="suivi-technicien" element={<SuiviTechnicienClient />} />
            <Route path="mes-interventions" element={<RendezVousClient />} />
- 
+           <Route path="factures-client" element={<SuiviFacturesClient />} />
         </Route>
       </Routes>
     </Router>
