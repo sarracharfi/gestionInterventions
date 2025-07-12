@@ -1,0 +1,247 @@
+/* Wrapper & container */
+.demande-wrapper {
+  padding: 60px 40px;
+  background: linear-gradient(135deg, #e9eff5, #f6f9fc);
+  min-height: 100vh;
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  color: #2c3e50;
+}
+
+.demande-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h2,
+h3 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 28px;
+  color: #2c3e50;
+}
+
+/* Champ filtre - Bleu & Gris clair */
+.filter-input {
+  display: block;
+  width: 300px;
+  max-width: 100%;
+  margin: 0 auto 30px;
+  padding: 10px 16px;
+  font-size: 16px;
+  border-radius: 30px;
+  border: 2px solid #4a90e2;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  color: #2c3e50;
+  background-color: #f0f4fa;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.filter-input::placeholder {
+  color: #7b9cd2;
+  font-style: italic;
+}
+
+.filter-input:focus {
+  border-color: #0047ab;
+  box-shadow: 0 0 8px rgba(0, 71, 171, 0.5);
+}
+
+/* Tableau */
+.demande-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.demande-table th,
+.demande-table td {
+  padding: 14px 12px;
+  text-align: center;
+  font-size: 15px;
+  color: #4a5a6a;
+}
+
+.demande-table th {
+  background: linear-gradient(to right, #6a9ef8, #4178d1);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.demande-table tr:nth-child(even) {
+  background-color: #f4f8ff;
+}
+
+.demande-table tr:hover {
+  background-color: #dbe9ff;
+  transition: background-color 0.3s;
+}
+
+/* Boutons icônes - Couleurs plus fines, gris/bleu clair */
+.icon-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  margin: 0 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.3s ease;
+  color: #7a9ac9; /* bleu clair/gris doux */
+}
+
+.icon-button:hover {
+  transform: scale(1.2);
+  color: #4a6fb1; /* bleu un peu plus soutenu */
+}
+
+.icon-button.delete {
+  color: #d98a8a; /* rouge très doux */
+}
+
+.icon-button.delete:hover {
+  color: #b56060; /* rouge plus foncé mais doux */
+}
+
+.icon-button.edit {
+  color: #7a9ac9; /* bleu clair/gris doux */
+}
+
+.icon-button.edit:hover {
+  color: #4a6fb1; /* bleu plus soutenu */
+}
+
+.icon-button.pdf {
+  color: #8fc39b; /* vert doux */
+}
+
+.icon-button.pdf:hover {
+  color: #5a8a5f; /* vert plus profond */
+}
+
+/* Bouton Ajouter une demande - Couleur plus douce, gris/bleu */
+.toggle-button {
+  background: linear-gradient(135deg, #7a8cae, #c3cbe0); /* dégradé gris-bleu clair */
+  color: #2c3e50; /* texte bleu foncé */
+  padding: 14px 28px;
+  font-weight: 700;
+  font-size: 18px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto 30px;
+  box-shadow: 0 6px 16px rgba(120, 140, 174, 0.3);
+  transition: background 0.3s ease, transform 0.25s ease;
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  user-select: none;
+}
+
+.toggle-button:hover {
+  background: linear-gradient(135deg, #62749a, #a4afcc);
+  transform: scale(1.05);
+  color: #1c2a3a;
+}
+
+/* Formulaire */
+.demande-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto 30px;
+  padding: 24px;
+  border-radius: 16px;
+  background: #f0f6ff;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+  font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+.demande-form input,
+.demande-form select,
+.demande-form textarea {
+  padding: 14px 18px;
+  font-size: 17px;
+  border-radius: 12px;
+  border: 2px solid #a8c1ff;
+  outline: none;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  color: #34495e;
+  font-weight: 500;
+}
+
+.demande-form input::placeholder,
+.demande-form textarea::placeholder {
+  color: #a8c1ff;
+  font-style: italic;
+}
+
+.demande-form input:focus,
+.demande-form select:focus,
+.demande-form textarea:focus {
+  border-color: #4178d1;
+  box-shadow: 0 0 10px rgba(65, 120, 209, 0.5);
+}
+
+/* Boutons du formulaire - Gris / Noir */
+.demande-form button {
+  background: linear-gradient(135deg, #4a4a4a, #1a1a1a); /* gris foncé vers noir */
+  color: #e0e0e0; /* texte clair */
+  border: none;
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.3s ease, transform 0.25s ease;
+  user-select: none;
+}
+
+.demande-form button:hover {
+  background: linear-gradient(135deg, #2b2b2b, #000000); /* noir plus profond */
+  transform: scale(1.05);
+  color: #fff;
+}
+
+/* Bouton Annuler - Gris moyen vers gris foncé */
+.demande-form .btn-cancel {
+  background: linear-gradient(135deg, #7a7a7a, #3d3d3d);
+  color: #f0f0f0;
+  font-weight: 600;
+  margin-left: 14px;
+  transition: background 0.3s ease;
+}
+
+.demande-form .btn-cancel:hover {
+  background: linear-gradient(135deg, #5c5c5c, #222222);
+  color: #fff;
+}
+
+/* Message d'erreur */
+.error {
+  color: #e74c3c;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 18px;
+  font-size: 16px;
+}

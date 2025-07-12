@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './suiviPaiement.css';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+ import { FaEdit, FaTrash } from 'react-icons/fa';
+import "./suiviPaiement.css";
+
 
 const API_URL = 'http://localhost:3000/api/factures';
 

@@ -17,7 +17,6 @@ export class SignUpDto {
   @IsEnum(Role)
   role: Role;
 
-  telephone?: string;
   entreprise?: string;
   specialite?: string;
   codeComptable?: string;

@@ -1,0 +1,58 @@
+.content-area {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center; 
+  align-items: center;    
+  background: linear-gradient(135deg, #eef2f3, #cfd9df);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.geolocalisation-container {
+  background: #fff;
+  padding: 40px;
+  width: 800px;     
+  max-width: 95vw;  
+  border-radius: 25px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.18);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.geolocalisation-container:hover {
+  transform: translateY(-7px);
+}
+
+/* Titre */
+.geolocalisation-container h2 {
+  margin-bottom: 25px;
+  font-size: 2.2rem;
+  color: #1e2a38;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.12);
+}
+
+ .error-text {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.loading-text {
+  color: #2980b9;
+  font-weight: bold;
+}
+
+ .coordinates p {
+  margin: 6px 0;
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+ .leaflet-container {
+  height: 500px;   
+  width: 100%;
+  border-radius: 20px;
+  margin-top: 25px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}

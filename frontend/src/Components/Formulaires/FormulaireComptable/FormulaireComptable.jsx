@@ -5,7 +5,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
 import SignUpModal from "../../SignUp/SignUpModal";
 import LoginModal from "../../Login/LoginModal";
-import { getUsers, signUp, signIn } from "../../Services/userservice";
+import { getUsers, createComptable, signIn } from "../../Services/userservice"; 
+// Ici createComptable pour inscription spécifique comptable
 import "./FormulaireComptable.css";
 
 const FormulaireComptable = () => {
@@ -77,7 +78,6 @@ const FormulaireComptable = () => {
     let isValid = true;
 
     if (isSignUpMode) {
-      // Valider tous les champs en mode inscription
       Object.entries(formData).forEach(([key, val]) => {
         const error = validateField(key, val);
         if (error) {
@@ -86,7 +86,6 @@ const FormulaireComptable = () => {
         }
       });
     } else {
-      // Valider uniquement email et password en mode connexion
       ["email", "password"].forEach((key) => {
         const error = validateField(key, formData[key]);
         if (error) {
@@ -107,7 +106,7 @@ const FormulaireComptable = () => {
       return;
     }
     try {
-      await signUp(formData);
+      await createComptable(formData);
       setFormError("");
       alert("Inscription réussie !");
       setFormData({
@@ -178,9 +177,7 @@ const FormulaireComptable = () => {
                   onChange={handleInputChange}
                   required
                 />
-                {errors.email && (
-                  <small className="error-text">{errors.email}</small>
-                )}
+                {errors.email && <small className="error-text">{errors.email}</small>}
               </div>
 
               <div className="input-field">
@@ -193,9 +190,7 @@ const FormulaireComptable = () => {
                   onChange={handleInputChange}
                   required
                 />
-                {errors.password && (
-                  <small className="error-text">{errors.password}</small>
-                )}
+                {errors.password && <small className="error-text">{errors.password}</small>}
               </div>
 
               <input type="submit" value="Se connecter" className="btn solid" />
@@ -216,9 +211,7 @@ const FormulaireComptable = () => {
                   onChange={handleInputChange}
                   required
                 />
-                {errors.nom && (
-                  <small className="error-text">{errors.nom}</small>
-                )}
+                {errors.nom && <small className="error-text">{errors.nom}</small>}
               </div>
 
               <div className="input-field">
@@ -231,9 +224,7 @@ const FormulaireComptable = () => {
                   onChange={handleInputChange}
                   required
                 />
-                {errors.prenom && (
-                  <small className="error-text">{errors.prenom}</small>
-                )}
+                {errors.prenom && <small className="error-text">{errors.prenom}</small>}
               </div>
 
               <div className="input-field">
@@ -246,9 +237,7 @@ const FormulaireComptable = () => {
                   onChange={handleInputChange}
                   required
                 />
-                {errors.email && (
-                  <small className="error-text">{errors.email}</small>
-                )}
+                {errors.email && <small className="error-text">{errors.email}</small>}
               </div>
 
               <div className="input-field">
@@ -261,9 +250,7 @@ const FormulaireComptable = () => {
                   onChange={handleInputChange}
                   required
                 />
-                {errors.password && (
-                  <small className="error-text">{errors.password}</small>
-                )}
+                {errors.password && <small className="error-text">{errors.password}</small>}
               </div>
 
               <div className="input-field">
@@ -301,8 +288,6 @@ const FormulaireComptable = () => {
                 S'inscrire
               </button>
             </div>
-            
-
           </div>
 
           <div className="panel right-panel">
@@ -319,8 +304,7 @@ const FormulaireComptable = () => {
               >
                 Se connecter
               </button>
-            </div> 
-           
+            </div>
           </div>
         </div>
       </div>

@@ -53,4 +53,8 @@ export class CreateFactureDto {
 
   @IsOptional()
   clientVille?: string;
+
+  @IsOptional()
+  codeSuivi?: string;
+
 }

@@ -1,0 +1,114 @@
+/* Mise en page globale */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  background: linear-gradient(to right, #f4f7fb, #e9edf2);
+}
+
+/* Conteneur principal */
+.suivi-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+/* En-tête */
+.suivi-title {
+  font-size: 26px;
+  font-weight: 600;
+  padding: 20px 30px;
+  color: #1e3a5f;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Contenu horizontal : carte + liste */
+.suivi-content {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Liste techniciens (gauche) */
+.techniciens-list {
+  width: 320px;
+  background-color: #ffffff;
+  padding: 25px 20px;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.04);
+}
+
+.techniciens-list h3 {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 15px;
+  color: #2c3e50;
+}
+
+/* Liste déroulante */
+.techniciens-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.techniciens-list li {
+  margin-bottom: 12px;
+}
+
+/* Boutons technicien */
+.techniciens-list button {
+  background-color: #f0f4fa;
+  color: #1a4d80;
+  border: 1px solid transparent;
+  padding: 10px 14px;
+  border-radius: 10px;
+  width: 100%;
+  text-align: left;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.techniciens-list button:hover {
+  background-color: #d9eaff;
+  border-color: #90caf9;
+}
+
+.techniciens-list button.selected {
+  background-color: #1a73e8;
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
+}
+
+/* Carte (droite) */
+.map-section {
+  flex: 1;
+  height: 100%;
+  background-color: #f9fafc;
+}
+
+.map-wrapper {
+  height: 100%;
+  width: 100%;
+  border-radius: 0;
+}
+
+/* Message d'erreur */
+.error-message {
+  color: #d32f2f;
+  background-color: #fff0f0;
+  padding: 12px 20px;
+  font-weight: 500;
+  border-left: 4px solid #f44336;
+  margin: 0;
+}

@@ -1,0 +1,183 @@
+.materiel-wrapper {
+  padding: 60px 40px;
+  background: linear-gradient(135deg, #e9eff5, #f6f9fc);
+  min-height: 100vh;
+  font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+.materiel-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h2,
+h3 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 28px;
+  color: #333;
+}
+
+.qr-code-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 35px;
+  animation: pop 0.4s ease-in-out;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.materiel-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.materiel-table th,
+.materiel-table td {
+  padding: 14px 12px;
+  text-align: center;
+  font-size: 15px;
+  color: #444;
+}
+
+.materiel-table th {
+  background: linear-gradient(to right, #4a90e2, #357ae8);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.materiel-table tr:nth-child(even) {
+  background-color: #f7f9fc;
+}
+
+.materiel-table tr:hover {
+  background-color: #e6f0ff;
+  transition: background-color 0.3s;
+}
+
+.materiel-image {
+  width: 60px;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  margin: 0 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.icon-button:hover {
+  transform: scale(1.2);
+}
+
+.icon-button.delete {
+  color: crimson;
+}
+
+.icon-button:not(.delete) {
+  color: #357ae8;
+}
+
+.toggle-button {
+  background: linear-gradient(135deg, #357ae8, #4a90e2);
+  color: white;
+  padding: 12px 24px;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto 30px;
+  box-shadow: 0 4px 12px rgba(53, 122, 232, 0.3);
+  transition: background 0.3s ease, transform 0.2s;
+}
+
+.toggle-button:hover {
+  background: linear-gradient(135deg, #2e6fd3, #3d88f7);
+  transform: scale(1.05);
+}
+
+.materiel-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 600px;
+  margin: 0 auto 30px;
+  padding: 20px;
+  border-radius: 12px;
+  background: #f9fbff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.materiel-form input,
+.materiel-form select,
+.materiel-form button {
+  padding: 12px 14px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+.materiel-form input:focus,
+.materiel-form select:focus {
+  border-color: #4a90e2;
+}
+
+.materiel-form button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.materiel-form button:hover {
+  background-color: #357ae8;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 15px;
+}

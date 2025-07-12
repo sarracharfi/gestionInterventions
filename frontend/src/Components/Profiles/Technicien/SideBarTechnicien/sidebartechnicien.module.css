@@ -1,0 +1,212 @@
+.sideBar {
+    background: #ffffff;
+    position: absolute;
+    left: 0;
+    padding: 2rem 1.5rem;
+    width: 16.5rem;
+    height: 100vh;
+    transition: all 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sideBar.collapsed {
+    width: 5rem;
+    padding: 2rem 0.5rem;
+} 
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.logo {
+    width: 2.5rem;
+    min-width: 2.5rem;
+    margin-left: 1rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    color: #5995fd;
+    padding: 0 0 0 1rem;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+    font-weight: bold;
+}
+
+.sideBar.collapsed .title {
+    opacity: 0;
+    width: 0;
+}
+
+.burgerContainer {
+    position: absolute;
+    right: -0.65rem;
+    top: 4.5rem;
+    width: 2rem;
+    height: 2rem;
+    background: #5995fd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.burgerMenu {
+    position: relative;
+    width: 1rem;
+    height: 0.15rem;
+    background: white;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.burgerMenu::before,
+.burgerMenu::after {
+    content: '';
+    position: absolute;
+    width: 1rem;
+    height: 0.15rem;
+    background: white;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.burgerMenu::before {
+    transform: translateY(-0.3rem);
+}
+
+.burgerMenu::after {
+    transform: translateY(0.3rem);
+}
+
+.sideBar.collapsed .burgerMenu {
+    background: transparent;
+}
+
+.sideBar.collapsed .burgerMenu::before {
+    transform: rotate(45deg);
+}
+
+.sideBar.collapsed .burgerMenu::after {
+    transform: rotate(-45deg);
+}
+
+.profileContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.profileImage {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    min-width: 2.5rem;
+    object-fit: cover;
+    margin-left: 1rem;
+}
+
+.profileContents {
+    padding: 0 0 0 1rem;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+}
+
+.sideBar.collapsed .profileContents {
+    opacity: 0;
+    width: 0;
+}
+
+.name {
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.email {
+    padding: 0;
+    margin: 0.25rem 0 0 0;
+    font-size: 0.8rem;
+    color: #777;
+}
+
+
+.itemIcon {
+    height: 30px;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+.contentsContainer {
+    margin: 1rem 0 0 0;
+}
+
+.contentsContainer ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.5rem;
+}
+
+.contentsContainer li {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0;
+    width: 100%;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.contentsContainer li:hover {
+    background-color: rgba(89, 149, 253, 0.1);
+}
+
+.contentsContainer li.active {
+    background-color: #5995fd;
+}
+
+.contentsContainer li.active a {
+    color: white;
+}
+
+.contentsContainer li.active .itemIcon {
+    filter: brightness(0) invert(1);
+}
+
+.contentsContainer a {
+    text-decoration: none;
+    font-size: 0.95rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-weight: 500;
+}
+
+.sideBar.collapsed a span {
+    display: none;
+}
+
+.sideBar.collapsed .itemIcon {
+    padding: 0 0.75rem;
+    margin-left: 0.25rem;
+}

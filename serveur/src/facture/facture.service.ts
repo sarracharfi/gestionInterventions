@@ -13,15 +13,11 @@ export class FactureService {
   ) {}
 
   async create(data: CreateFactureDto): Promise<Facture> {
-    // Validation des champs obligatoires
-    if (!data.quantite || !data.prixUnitaire || !data.tva) {
-      throw new Error('Les champs quantite, prixUnitaire et tva sont obligatoires');
-    }
-
-    // Calcul des montants
     const montantHT = data.quantite * data.prixUnitaire;
     const montantTVA = montantHT * (data.tva / 100);
     const montantTTC = montantHT + montantTVA;
+
+    const codeSuivi = 'FCT-' + Math.random().toString(36).substring(2, 8).toUpperCase();
 
     const factureData = {
       ...data,
@@ -30,6 +26,7 @@ export class FactureService {
       montantTTC,
       estPayee: data.estPayee || false,
       dateEmission: data.dateEmission || new Date(),
+      codeSuivi, // <<< ajout ici
     };
 
     return await this.factureRepo.save(factureData);
@@ -37,8 +34,8 @@ export class FactureService {
 
   async findAll(etat?: 'payee' | 'impayee'): Promise<Facture[]> {
     if (etat) {
-      return await this.factureRepo.find({ 
-        where: { estPayee: etat === 'payee' } 
+      return await this.factureRepo.find({
+        where: { estPayee: etat === 'payee' }
       });
     }
     return await this.factureRepo.find();
@@ -50,15 +47,15 @@ export class FactureService {
 
   async update(id: number, data: UpdateFactureDto): Promise<Facture | null> {
     const facture = await this.findOne(id);
-    if (!facture) {
-      return null;
-    }
+    if (!facture) return null;
 
-    // Mise à jour des champs
     const updatedData = { ...data };
 
-    // Recalcul des montants si nécessaire
-    if (data.quantite !== undefined || data.prixUnitaire !== undefined || data.tva !== undefined) {
+    if (
+      data.quantite !== undefined ||
+      data.prixUnitaire !== undefined ||
+      data.tva !== undefined
+    ) {
       const quantite = data.quantite ?? facture.quantite;
       const prixUnitaire = data.prixUnitaire ?? facture.prixUnitaire;
       const tva = data.tva ?? facture.tva;
@@ -77,11 +74,6 @@ export class FactureService {
   }
 
   async marquerCommePayee(id: number): Promise<Facture | null> {
-    const facture = await this.findOne(id);
-    if (!facture) {
-      return null;
-    }
-
     await this.factureRepo.update(id, { estPayee: true });
     return this.findOne(id);
   }

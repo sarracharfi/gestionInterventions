@@ -1,26 +1,20 @@
 import axios from "axios";
 
 const API_BASE_URL = "http://localhost:3000/api";
-
-// Inscription
-export const signUp = async (data) => {
-  const url = `${API_BASE_URL}/auth/signup`.trim();
-  console.log("URL signup appelée :", `"${url}"`, `Longueur : ${url.length}`);
-
+// Inscription (clients)
+export const createClient = async (client) => {
   try {
-    const response = await axios.post(url, data);
+    const response = await axios.post(`${API_BASE_URL}/clients/signup`, client);
     return response.data;
   } catch (error) {
-    console.error("Signup Error:", error.response?.data || error.message);
-    throw error.response?.data || error;
+    console.error("Erreur création client :", error.response?.data || error.message);
+    throw error;
   }
 };
 
 // Connexion
 export const signIn = async (data) => {
-  const url = `${API_BASE_URL}/auth/login`.trim();
-  console.log("URL login appelée :", `"${url}"`, `Longueur : ${url.length}`);
-
+  const url = `${API_BASE_URL}/clients/signin`;
   try {
     const response = await axios.post(url, data);
     return response.data;
@@ -29,6 +23,49 @@ export const signIn = async (data) => {
     throw error.response?.data || error;
   }
 };
+
+// -------------------- Clients CRUD --------------------
+
+export const getClients = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/clients`);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur récupération clients :", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const getClientById = async (id) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/clients/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur récupération client :", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const updateClient = async (id, data) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/clients/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur mise à jour client :", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const deleteClient = async (id) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/clients/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur suppression client :", error.response?.data || error.message);
+    throw error;
+  }
+};
+
 
 // Récupérer tous les utilisateurs
 export const getUsers = async () => {
@@ -150,6 +187,191 @@ export const sendContactMessage = async (messageData) => {
     return response.data;
   } catch (error) {
     console.error("Erreur envoi contact :", error.response?.data || error.message);
+    throw error;
+  }
+};
+///// Techniciens (CRUD)
+export const createTechnicien = async (technicien) => {
+  const url = `${API_BASE_URL}/technicien/signup`.trim();
+
+  try {
+    const response = await axios.post(url, technicien);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur création technicien:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const getTechniciens = async () => {
+  const url = `${API_BASE_URL}/technicien`.trim();
+
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur récupération techniciens:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const updateTechnicien = async (id, data) => {
+  const url = `${API_BASE_URL}/technicien/${id}`.trim();
+
+  try {
+    const response = await axios.put(url, data);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur mise à jour technicien:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const deleteTechnicien = async (id) => {
+  const url = `${API_BASE_URL}/technicien/${id}`.trim();
+
+  try {
+    const response = await axios.delete(url);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur suppression technicien:", error.response?.data || error.message);
+    throw error;
+  }
+};
+// Récupérer la liste des matériels
+export const getMateriels = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/materiels`);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur récupération matériels :", error);
+    throw error;
+  }
+};
+
+// Créer un matériel avec image (multipart/form-data)
+export const createMateriel = async (formData) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/materiels/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Erreur création matériel:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+// Mettre à jour un matériel (sans image ici)
+export const updateMateriel = async (id, data) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/materiels/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur mise à jour matériel:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+// Supprimer un matériel
+export const deleteMateriel = async (id) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/materiels/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur suppression matériel:", error.response?.data || error.message);
+    throw error;
+  }
+};
+//
+// POST - Enregistrer ou mettre à jour position
+export const saveTechnicienPosition = async ({ technicienId, latitude, longitude }) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/geoloc`, {
+      technicienId,
+      latitude,
+      longitude,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Erreur lors de l'enregistrement de la position :", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+// GET - Récupérer position par ID technicien
+export const getTechnicienPosition = async (technicienId) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/geoloc/${technicienId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur lors de la récupération de la position :", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+
+
+// -------- DEMANDE INTERVENTION CRUD --------
+
+
+export const createDemandeIntervention = async (demande) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/demandes-intervention`, demande);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur création demande :", error.response?.data || error.message);
+    throw error;
+  }
+};
+export const getDemandesIntervention = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/demandes-intervention`);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur récupération demandes :", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const getDemandeInterventionById = async (id) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/demandes-intervention/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur récupération demande :", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const updateDemandeIntervention = async (id, data) => {
+  try {
+    const response = await axios.patch(`${API_BASE_URL}/demandes-intervention/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur mise à jour demande :", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const deleteDemandeIntervention = async (id) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/demandes-intervention/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur suppression demande :", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const changeStatusDemandeIntervention = async (id, status) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/demandes-intervention/${id}/status/${status}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur changement statut demande :", error.response?.data || error.message);
     throw error;
   }
 };

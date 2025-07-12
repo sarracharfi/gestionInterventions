@@ -46,4 +46,8 @@ export class Facture {
 
   @Column({ nullable: true })
   clientVille: string;
+
+  @Column({ nullable: true })
+  codeSuivi: string;
+
 }

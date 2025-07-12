@@ -9,6 +9,11 @@ import { User } from './users/user.entity';
 import { ComptableModule } from './comptable/comptable.module';
 import { FactureModule } from './facture/facture.module';
 import { ContactModule } from './contact/contact.module';
+import { GeolocModule } from './geoloc/geoloc.module';
+import { TechnicienModule } from './technicien/technicien.module';
+import { MaterielModule } from './materiel/materiel.module';
+import { ClientModule } from './client/client.module';
+import { DemandeInterventionModule } from './demande-intervention/demande-intervention.module';
 
 @Module({
   imports: [
@@ -23,7 +28,7 @@ import { ContactModule } from './contact/contact.module';
       username: 'postgres',
       password: 'root',
       database: 'interventions',
-      entities: [User, __dirname + '/**/*.entity{.ts,.js}'], // ajoute ici toutes les entités
+      entities: [User, __dirname + '/**/*.entity{.ts,.js}'], 
       synchronize: true,
       ssl: false,
     }),
@@ -32,8 +37,13 @@ import { ContactModule } from './contact/contact.module';
     ComptableModule,
     FactureModule,
     ContactModule,
+    GeolocModule,
+    TechnicienModule,
+    MaterielModule,
+    ClientModule,
+    DemandeInterventionModule,
   ],
-  controllers: [AppController], // ici seulement le controller de base (AppController)
-  providers: [AppService],      // idem, juste les services de base
+  controllers: [AppController],  
+  providers: [AppService],       
 })
 export class AppModule {}

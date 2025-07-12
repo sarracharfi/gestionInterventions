@@ -24,8 +24,6 @@ export class User {
   })
   role: string;
 
-  @Column({ nullable: true })
-  telephone?: string;
 
   @Column({ nullable: true })
   entreprise?: string;
@@ -45,7 +43,6 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // Méthode pratique pour afficher le nom complet
   get fullName(): string {
     return `${this.prenom} ${this.nom}`;
   }

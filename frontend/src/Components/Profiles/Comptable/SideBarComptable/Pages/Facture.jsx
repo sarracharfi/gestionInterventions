@@ -24,15 +24,38 @@ const Facture = () => {
     clientAdresse: '',
     clientCodePostal: '',
     clientVille: '',
+    codeSuivi: '',
   });
 
-  // Récupération de toutes les factures au chargement pour vérifier si id existe
+  // Génération code suivi unique au format FACYYYYMMDD-XXXX
+  const generateCodeSuivi = (factures) => {
+    const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    const facturesDuJour = factures.filter(
+      (f) => (f.dateEmission || '').slice(0, 10).replace(/-/g, '') === today
+    );
+
+    let maxNum = 0;
+    facturesDuJour.forEach((f) => {
+      if (f.codeSuivi) {
+        const match = f.codeSuivi.match(/FAC\d{8}-(\d{4})/);
+        if (match) {
+          const num = parseInt(match[1], 10);
+          if (num > maxNum) maxNum = num;
+        }
+      }
+    });
+
+    const nextNum = (maxNum + 1).toString().padStart(4, '0');
+    return `FAC${today}-${nextNum}`;
+  };
+
+  // Récupération des factures
   const fetchFactures = async () => {
     try {
       const res = await axios.get(API_URL);
       setFactures(res.data);
     } catch (err) {
-      console.error("Erreur lors de la récupération des factures:", err);
+      console.error('Erreur lors de la récupération des factures:', err);
     }
   };
 
@@ -40,19 +63,27 @@ const Facture = () => {
     fetchFactures();
   }, []);
 
+  // Soumission formulaire création/modification
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const montantHT = form.quantite * form.prixUnitaire;
       const montantTVA = montantHT * (form.tva / 100);
       const montantTTC = montantHT + montantTVA;
+
+      // Génération codeSuivi uniquement si création (editId == null)
+      const codeSuivi = editId
+        ? form.codeSuivi || generateCodeSuivi(factures)
+        : generateCodeSuivi(factures);
 
       const factureData = {
         ...form,
         montantHT,
         montantTVA,
         montantTTC,
-        dateEmission: form.dateEmission || new Date().toISOString().split('T')[0]
+        dateEmission: form.dateEmission || new Date().toISOString().split('T')[0],
+        codeSuivi,
       };
 
       if (editId) {
@@ -60,7 +91,7 @@ const Facture = () => {
         setEditId(null);
       } else {
         const res = await axios.post(API_URL, factureData);
-        factureData.id = res.data.id || res.data._id; // S'assurer d'avoir l'id
+        factureData.id = res.data.id || res.data._id;
       }
 
       setDerniereFacture(factureData);
@@ -78,8 +109,8 @@ const Facture = () => {
         clientAdresse: '',
         clientCodePostal: '',
         clientVille: '',
+        codeSuivi: '',
       });
-
     } catch (err) {
       console.error(err);
       alert("Erreur lors de l'enregistrement");
@@ -106,11 +137,17 @@ const Facture = () => {
   };
 
   const handleEdit = (facture) => {
-    setForm(facture);
+    setForm({
+      ...facture,
+      quantite: Number(facture.quantite),
+      prixUnitaire: Number(facture.prixUnitaire),
+      tva: Number(facture.tva),
+    });
     setEditId(facture.id || facture._id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Génération du PDF
   const telechargerPDF = (facture) => {
     const doc = new jsPDF();
 
@@ -129,7 +166,8 @@ const Facture = () => {
 
     doc.text(`Date de facturation: ${facture.dateEmission}`, 120, 40);
     doc.text(`Numéro de facture: ${facture.id || facture._id || 'temp'}`, 120, 45);
-    doc.text('Échéance: 30 jours', 120, 50);
+    doc.text(`Code suivi: ${facture.codeSuivi || 'N/A'}`, 120, 55);
+    doc.text('Échéance: 30 jours', 120, 60);
 
     autoTable(doc, {
       startY: 100,
@@ -158,7 +196,7 @@ const Facture = () => {
       columnStyles: { 0: { cellWidth: 40 } }
     });
 
-    doc.save(`facture_${facture.id || facture._id || 'temp'}.pdf`);
+    doc.save(`facture_${facture.codeSuivi || facture.id || facture._id || 'temp'}.pdf`);
   };
 
   return (
@@ -167,6 +205,13 @@ const Facture = () => {
 
         <form className="facture-form" onSubmit={handleSubmit}>
           <h2>{editId ? 'Modifier une facture' : 'Créer une nouvelle facture'}</h2>
+
+          {editId && (
+            <div className="form-group">
+              <label>Code de suivi :</label>
+              <input type="text" value={form.codeSuivi} disabled />
+            </div>
+          )}
 
           <div className="form-group">
             <label>Description:</label>
@@ -310,6 +355,7 @@ const Facture = () => {
                   clientAdresse: '',
                   clientCodePostal: '',
                   clientVille: '',
+                  codeSuivi: '',
                 });
               }}
             >
@@ -322,6 +368,7 @@ const Facture = () => {
           <div className="facture-preview">
             <h3>Dernière facture enregistrée</h3>
             <div className="preview-details">
+              <p><strong>Code de suivi :</strong> {derniereFacture.codeSuivi}</p>
               <p><strong>Description :</strong> {derniereFacture.description}</p>
               <p><strong>Client :</strong> {derniereFacture.clientNom}</p>
               <p><strong>Montant TTC :</strong> {derniereFacture.montantTTC?.toFixed(2)} €</p>

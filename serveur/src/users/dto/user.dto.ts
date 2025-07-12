@@ -26,9 +26,7 @@ export class CreateUserDto {
   })
   role: Role;
 
-  @IsOptional()
-  @IsPhoneNumber('TN', { message: 'Le numéro de téléphone doit être valide au format tunisien' })
-  telephone?: string;
+
 
   // Champ pour les clients
   @IsOptional()
