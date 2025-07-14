@@ -1,4 +1,5 @@
 import { DemandeIntervention } from 'src/demande-intervention/demande.entity';
+import { Evaluation } from 'src/evaluation/evaluation.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
@@ -32,4 +33,7 @@ export class Client {
 
   @OneToMany(() => DemandeIntervention, demande => demande.client)
   demandes: DemandeIntervention[];
+
+  @OneToMany(() => Evaluation, (evaluation) => evaluation.client)
+evaluations: Evaluation[];
 }

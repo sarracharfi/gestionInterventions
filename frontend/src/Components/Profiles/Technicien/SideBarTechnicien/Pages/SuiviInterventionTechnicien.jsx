@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import io from "socket.io-client";
 import {
-  getDemandesIntervention,        // Récupérer toutes les demandes
-  updateDemandeIntervention,      // Mettre à jour une demande
+  getDemandesIntervention,
+  updateDemandeIntervention,
 } from "../../../../Services/userservice";
+import "./suiviInterventionTechnicien.css";
 
 const STATUSES = ["Nouvelle", "En cours", "Reporté", "Terminé"];
 
@@ -11,50 +13,72 @@ const SuiviInterventionTechnicien = ({ technicienId }) => {
   const [loading, setLoading] = useState(true);
   const [selectedDemande, setSelectedDemande] = useState(null);
   const [commentaire, setCommentaire] = useState("");
-  const [statusUpdate, setStatusUpdate] = useState("");
+  const [statutUpdate, setStatutUpdate] = useState("Nouvelle");
+
+  // Socket.io
+  const socketRef = useRef(null);
 
   useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      try {
-        // Récupérer toutes les demandes, puis filtrer celles assignées au technicien
-        const allDemandes = await getDemandesIntervention();
-        const demandesTech = allDemandes.filter(
-          (d) => d.technicienId === technicienId
-        );
-        setDemandes(demandesTech);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
+    socketRef.current = io("http://localhost:3000"); // Adapt URL à ton backend
+
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
       }
-    }
+    };
+  }, []);
+
+  useEffect(() => {
     fetchData();
   }, [technicienId]);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const allDemandes = await getDemandesIntervention();
+      const demandesTech = allDemandes.filter(
+        (d) => d.technicienId === technicienId
+      );
+      setDemandes(demandesTech);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSelectDemande = (demande) => {
     setSelectedDemande(demande);
     setCommentaire(demande.commentaire || "");
-    setStatusUpdate(demande.status || "Nouvelle");
+    setStatutUpdate(demande.statut || "Nouvelle");
   };
 
   const handleSaveUpdate = async () => {
     if (!selectedDemande) return;
     try {
       await updateDemandeIntervention(selectedDemande.id, {
-        status: statusUpdate,
+        statut: statutUpdate,
         commentaire: commentaire,
       });
-      alert("Mise à jour enregistrée.");
 
-      // Met à jour la liste localement
+      // Mise à jour locale
       setDemandes((prev) =>
         prev.map((d) =>
           d.id === selectedDemande.id
-            ? { ...d, status: statusUpdate, commentaire }
+            ? { ...d, statut: statutUpdate, commentaire }
             : d
         )
       );
+
+      // Envoi événement WebSocket au serveur
+      socketRef.current.emit("updateStatus", {
+        demandeId: selectedDemande.id,
+        nouveauStatus: statutUpdate,
+        titre: selectedDemande.titre,
+        technicienId: technicienId,
+      });
+
+      alert("Mise à jour enregistrée.");
 
       setSelectedDemande(null);
     } catch (err) {
@@ -71,12 +95,12 @@ const SuiviInterventionTechnicien = ({ technicienId }) => {
       {demandes.length === 0 ? (
         <p>Aucune intervention assignée pour le moment.</p>
       ) : (
-        <table border="1" cellPadding="8" style={{ width: "100%", marginBottom: 20 }}>
+        <table>
           <thead>
             <tr>
               <th>Titre</th>
               <th>Description</th>
-              <th>Date Intervention</th>
+              <th>Date</th>
               <th>Statut</th>
               <th>Actions</th>
             </tr>
@@ -86,8 +110,8 @@ const SuiviInterventionTechnicien = ({ technicienId }) => {
               <tr key={d.id}>
                 <td>{d.titre}</td>
                 <td>{d.description}</td>
-                <td>{d.dateIntervention ? d.dateIntervention.split("T")[0] : "-"}</td>
-                <td>{d.status}</td>
+                <td>{d.dateIntervention?.split("T")[0] || "-"}</td>
+                <td>{d.statut}</td>
                 <td>
                   <button onClick={() => handleSelectDemande(d)}>
                     Voir / Modifier
@@ -99,62 +123,30 @@ const SuiviInterventionTechnicien = ({ technicienId }) => {
         </table>
       )}
 
-      {/* Formulaire modification détail intervention */}
       {selectedDemande && (
-        <div
-          style={{
-            border: "1px solid #ccc",
-            padding: "20px",
-            borderRadius: "8px",
-            maxWidth: "600px",
-            marginBottom: "30px",
-          }}
-        >
-          <h3>Détail intervention : {selectedDemande.titre}</h3>
-          <p><strong>Description :</strong> {selectedDemande.description}</p>
-          <p><strong>Date intervention :</strong> {selectedDemande.dateIntervention ? selectedDemande.dateIntervention.split("T")[0] : "-"}</p>
-          <p><strong>Client :</strong> {selectedDemande.client ? `${selectedDemande.client.nom} ${selectedDemande.client.prenom}` : "-"}</p>
-
-          <label>
-            Statut :
-            <select
-              value={statusUpdate}
-              onChange={(e) => setStatusUpdate(e.target.value)}
-              style={{ marginLeft: 10 }}
-            >
-              {STATUSES.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <br /><br />
-
-          <label>
-            Commentaires / Rapport d'intervention :
-            <textarea
-              rows={4}
-              value={commentaire}
-              onChange={(e) => setCommentaire(e.target.value)}
-              placeholder="Ajouter un commentaire ou un rapport"
-              style={{ width: "100%", marginTop: 8 }}
-            />
-          </label>
-
-          <br />
-
-          <button onClick={handleSaveUpdate} style={{ marginTop: 15 }}>
-            Enregistrer la mise à jour
-          </button>
-
-          <button
-            onClick={() => setSelectedDemande(null)}
-            style={{ marginLeft: 10, marginTop: 15 }}
+        <div className="update-form">
+          <h3>Modifier : {selectedDemande.titre}</h3>
+          <label>Statut :</label>
+          <select
+            value={statutUpdate}
+            onChange={(e) => setStatutUpdate(e.target.value)}
           >
-            Annuler
-          </button>
+            {STATUSES.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+
+          <label>Commentaire :</label>
+          <textarea
+            rows={4}
+            value={commentaire}
+            onChange={(e) => setCommentaire(e.target.value)}
+          />
+
+          <button onClick={handleSaveUpdate}>Enregistrer</button>
+          <button onClick={() => setSelectedDemande(null)}>Annuler</button>
         </div>
       )}
     </div>

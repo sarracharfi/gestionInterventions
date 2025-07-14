@@ -375,3 +375,54 @@ export const changeStatusDemandeIntervention = async (id, status) => {
     throw error;
   }
 };
+const API_BASE_EVALUATIONS = "http://localhost:3000/api/evaluations";
+
+export const getEvaluations = async () => {
+  try {
+    const response = await axios.get(API_BASE_EVALUATIONS);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur récupération évaluations:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const createEvaluation = async (evaluation) => {
+  try {
+    // S'assurer que evaluation a bien les champs que le backend attend
+    const payload = {
+      clientNom: evaluation.clientNom,
+      clientPrenom: evaluation.clientPrenom,
+      technicienNom: evaluation.technicienNom,
+      technicienPrenom: evaluation.technicienPrenom,
+      note: Number(evaluation.note),
+      commentaire: evaluation.commentaire || '',
+    };
+
+    const response = await axios.post(API_BASE_EVALUATIONS, payload);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur création évaluation:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const updateEvaluation = async (id, data) => {
+  try {
+    const response = await axios.put(`${API_BASE_EVALUATIONS}/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur mise à jour évaluation:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const deleteEvaluation = async (id) => {
+  try {
+    const response = await axios.delete(`${API_BASE_EVALUATIONS}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur suppression évaluation:", error.response?.data || error.message);
+    throw error;
+  }
+};

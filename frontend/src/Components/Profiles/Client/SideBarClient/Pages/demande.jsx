@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import io from "socket.io-client";
 import {
   getDemandesIntervention,
   createDemandeIntervention,
@@ -11,7 +12,13 @@ import "jspdf-autotable";
 import { FaFilePdf, FaEdit, FaTrash } from "react-icons/fa";
 import "./demande.css";
 
-const STATUSES = ["En attente", "En cours", "Terminé"];
+// Statuts exacts côté backend (en minuscules et underscore)
+const STATUSES = [
+  { value: "en_attente", label: "En attente" },
+  { value: "confirmee", label: "Confirmée" },
+  { value: "terminee", label: "Terminée" },
+  { value: "annulee", label: "Annulée" },
+];
 
 const Demande = () => {
   const [demandes, setDemandes] = useState([]);
@@ -19,36 +26,69 @@ const Demande = () => {
   const [loading, setLoading] = useState(true);
   const [filterClient, setFilterClient] = useState("");
   const [formVisible, setFormVisible] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [error, setError] = useState("");
 
+  // Formulaire
   const [form, setForm] = useState({
     id: null,
     titre: "",
     description: "",
     dateIntervention: "",
     clientId: "",
-    status: "En attente",
+    status: "en_attente",
   });
 
-  const [editMode, setEditMode] = useState(false);
-  const [error, setError] = useState("");
+  // Socket.io client
+  const socketRef = useRef(null);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const clientsData = await getClients();
-        setClients(clientsData);
+    // Connexion au serveur Socket.IO (adapter URL si besoin)
+    socketRef.current = io("http://localhost:3000");
 
-        const demandesData = await getDemandesIntervention();
-        setDemandes(demandesData);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
+    // Écoute événement 'statusChanged' venant du serveur
+    socketRef.current.on("statusChanged", ({ demandeId, nouveauStatus, titre }) => {
+      alert(`La demande "${titre}" a changé de statut : ${mapStatusToLabel(nouveauStatus)}`);
+
+      // Mise à jour locale dans le tableau
+      setDemandes((prev) =>
+        prev.map((d) =>
+          d.id === demandeId ? { ...d, status: nouveauStatus } : d
+        )
+      );
+    });
+
     fetchData();
+
+    // Déconnexion socket à la destruction du composant
+    return () => {
+      socketRef.current.disconnect();
+    };
   }, []);
 
+  // Fonction pour récupérer les données (clients + demandes)
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const clientsData = await getClients();
+      setClients(clientsData);
+
+      const demandesData = await getDemandesIntervention();
+      setDemandes(demandesData);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Convertir valeur status backend en label visible
+  const mapStatusToLabel = (statusValue) => {
+    const found = STATUSES.find((s) => s.value === statusValue);
+    return found ? found.label : statusValue || "-";
+  };
+
+  // Gestion formulaire
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -75,7 +115,7 @@ const Demande = () => {
       titre: form.titre.trim(),
       description: form.description.trim(),
       clientId: form.clientId,
-      statut: form.status, // <-- clé correcte pour backend
+      status: form.status,
     };
     if (form.dateIntervention) {
       demandeData.dateIntervention = form.dateIntervention;
@@ -85,30 +125,24 @@ const Demande = () => {
       if (editMode) {
         await updateDemandeIntervention(form.id, demandeData);
         alert("Demande mise à jour !");
+
+        // Émettre l'événement socket pour informer les autres clients
+        socketRef.current.emit("updateStatus", {
+          demandeId: form.id,
+          nouveauStatus: demandeData.status,
+          titre: form.titre,
+        });
+
       } else {
         await createDemandeIntervention(demandeData);
         alert("Demande créée !");
       }
-      const updatedList = await getDemandesIntervention();
-      setDemandes(updatedList);
+      await fetchData();
       resetForm();
       setFormVisible(false);
     } catch (err) {
       console.error("Erreur création demande :", err.response?.data);
-      const backendMessages = err.response?.data?.message;
-      if (Array.isArray(backendMessages)) {
-        setError(
-          backendMessages
-            .map((e) =>
-              e.constraints
-                ? Object.values(e.constraints).join(", ")
-                : JSON.stringify(e)
-            )
-            .join(" | ")
-        );
-      } else {
-        setError(err.response?.data?.message || "Erreur lors de l'enregistrement");
-      }
+      setError(err.response?.data?.message || "Erreur lors de l'enregistrement");
     }
   };
 
@@ -119,7 +153,7 @@ const Demande = () => {
       description: "",
       dateIntervention: "",
       clientId: "",
-      status: "En attente",
+      status: "en_attente",
     });
     setEditMode(false);
     setError("");
@@ -134,7 +168,7 @@ const Demande = () => {
         ? demande.dateIntervention.split("T")[0]
         : "",
       clientId: demande.client ? demande.client.id : "",
-      status: demande.statut || "En attente", // <-- lecture du backend
+      status: demande.status || "en_attente",
     });
     setEditMode(true);
     setError("");
@@ -159,12 +193,11 @@ const Demande = () => {
     return fullName.includes(filterClient.trim().toLowerCase());
   });
 
+  // Générer PDF
   const generatePDFForDemande = (demande) => {
     const doc = new jsPDF();
-
     doc.setFontSize(16);
     doc.text("Détails de la Demande d'Intervention", 14, 20);
-
     doc.setFontSize(12);
     doc.text(`Titre: ${demande.titre}`, 14, 40);
     doc.text(`Description: ${demande.description}`, 14, 50);
@@ -182,17 +215,13 @@ const Demande = () => {
       14,
       70
     );
-    doc.text(`Statut: ${demande.statut || "-"}`, 14, 80);
-
+    doc.text(`Statut: ${mapStatusToLabel(demande.status)}`, 14, 80);
     doc.save(`demande_${demande.id}.pdf`);
   };
 
   if (loading)
     return (
-      <p
-        className="text-muted"
-        style={{ textAlign: "center", marginTop: 50, fontSize: 16 }}
-      >
+      <p className="text-muted" style={{ textAlign: "center", marginTop: 50 }}>
         Chargement...
       </p>
     );
@@ -201,7 +230,6 @@ const Demande = () => {
     <div className="demande-container">
       <h2>Gestion des Demandes d'Intervention</h2>
 
-      {/* Filtre par client */}
       <input
         type="text"
         placeholder="Filtrer par nom client"
@@ -210,7 +238,6 @@ const Demande = () => {
         className="filter-input"
       />
 
-      {/* Tableau */}
       <h3 className="section-title">Liste des demandes</h3>
       {demandesFiltres.length === 0 ? (
         <p className="text-muted">Aucune demande trouvée.</p>
@@ -233,7 +260,7 @@ const Demande = () => {
                 <td>{d.description}</td>
                 <td>{d.dateIntervention ? d.dateIntervention.split("T")[0] : "-"}</td>
                 <td>{d.client ? `${d.client.nom} ${d.client.prenom}` : "-"}</td>
-                <td>{d.statut || "-"}</td>
+                <td>{mapStatusToLabel(d.status)}</td>
                 <td
                   style={{
                     display: "flex",
@@ -269,7 +296,6 @@ const Demande = () => {
         </table>
       )}
 
-      {/* Bouton Ajouter DEMANDE SOUS TABLEAU */}
       {!formVisible && (
         <button
           className="btn-add"
@@ -282,7 +308,6 @@ const Demande = () => {
         </button>
       )}
 
-      {/* Formulaire */}
       {formVisible && (
         <form className="demande-form" onSubmit={handleSubmit}>
           {error && <p className="error-message">{error}</p>}
@@ -294,7 +319,6 @@ const Demande = () => {
             type="text"
             value={form.titre}
             onChange={handleChange}
-            placeholder="Titre de la demande"
             required
           />
 
@@ -304,7 +328,6 @@ const Demande = () => {
             name="description"
             value={form.description}
             onChange={handleChange}
-            placeholder="Description détaillée"
             rows={4}
             required
           />
@@ -343,8 +366,8 @@ const Demande = () => {
             required
           >
             {STATUSES.map((s) => (
-              <option key={s} value={s}>
-                {s}
+              <option key={s.value} value={s.value}>
+                {s.label}
               </option>
             ))}
           </select>

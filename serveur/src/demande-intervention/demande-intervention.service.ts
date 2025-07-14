@@ -4,10 +4,11 @@ import { Repository } from 'typeorm';
 
 import { Client } from '../client/client.entity';
 import { DemandeIntervention } from './demande.entity';
- 
 import { InterventionStatus } from './demande.entity';
 import { CreateDemandeInterventionDto } from './create-intervention';
 import { UpdateDemandeInterventionDto } from './dto/update-intervention';
+
+import { DemandeInterventionGateway } from './demande-intervention.gateway';
 
 @Injectable()
 export class DemandeInterventionService {
@@ -17,6 +18,8 @@ export class DemandeInterventionService {
 
     @InjectRepository(Client)
     private clientRepository: Repository<Client>,
+
+    private readonly gateway: DemandeInterventionGateway,
   ) {}
 
   async create(createDto: CreateDemandeInterventionDto): Promise<DemandeIntervention> {
@@ -62,7 +65,12 @@ export class DemandeInterventionService {
       status: updateDto.status ?? demande.status,
     });
 
-    return this.demandeRepository.save(demande);
+    const saved = await this.demandeRepository.save(demande);
+
+    // Émission socket pour notifier changement de statut
+    this.gateway.sendStatusUpdate(saved.id, saved.status, saved.titre);
+
+    return saved;
   }
 
   async remove(id: string): Promise<void> {
@@ -73,6 +81,11 @@ export class DemandeInterventionService {
   async changeStatus(id: string, status: InterventionStatus): Promise<DemandeIntervention> {
     const demande = await this.findOne(id);
     demande.status = status;
-    return this.demandeRepository.save(demande);
+    const saved = await this.demandeRepository.save(demande);
+
+    // Émission socket pour notifier changement de statut
+    this.gateway.sendStatusUpdate(saved.id, saved.status, saved.titre);
+
+    return saved;
   }
 }

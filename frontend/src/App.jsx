@@ -28,6 +28,7 @@ import RendezVousClient from './Components/Profiles/Client/SideBarClient/Pages/R
 import SuiviInterventionTechnicien from './Components/Profiles/Technicien/SideBarTechnicien/Pages/SuiviInterventionTechnicien';
 import SuiviPaiement from './Components/Profiles/Comptable/SideBarComptable/Pages/suiviPaiement';
 import SuiviFacturesClient from './Components/Profiles/Client/SideBarClient/Pages/SuiviFacturesClientt';
+import Evaluation from './Components/Profiles/Client/SideBarClient/Pages/evaluation';
   
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
           <Route path="suivi-technicien" element={<SuiviTechnicienClient />} />
            <Route path="mes-interventions" element={<RendezVousClient />} />
            <Route path="factures-client" element={<SuiviFacturesClient />} />
+             <Route path="avis-technicien" element={<Evaluation />} />
         </Route>
       </Routes>
     </Router>

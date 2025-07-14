@@ -1,18 +1,19 @@
-// src/demande-intervention/demande-intervention.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { DemandeIntervention } from './demande.entity';
+import { Client } from '../client/client.entity';
+
 import { DemandeInterventionService } from './demande-intervention.service';
 import { DemandeInterventionController } from './demande-intervention.controller';
-import { Client } from 'src/client/client.entity';
-import { ClientModule } from 'src/client/client.module';
+import { DemandeInterventionGateway } from './demande-intervention.gateway';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([DemandeIntervention, Client]),
-    ClientModule, 
+    TypeOrmModule.forFeature([DemandeIntervention, Client]),  
   ],
   controllers: [DemandeInterventionController],
-  providers: [DemandeInterventionService],
+  providers: [DemandeInterventionService, DemandeInterventionGateway],
+  exports: [DemandeInterventionService, DemandeInterventionGateway], 
 })
 export class DemandeInterventionModule {}

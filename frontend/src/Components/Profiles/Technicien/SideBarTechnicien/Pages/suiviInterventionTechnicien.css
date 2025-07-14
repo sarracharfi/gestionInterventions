@@ -1,0 +1,87 @@
+.suivi-intervention-technicien {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+}
+
+.suivi-intervention-technicien h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+.suivi-intervention-technicien table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.suivi-intervention-technicien th,
+.suivi-intervention-technicien td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.suivi-intervention-technicien th {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.suivi-intervention-technicien td button {
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.suivi-intervention-technicien td button:hover {
+  background-color: #1c638d;
+}
+
+.suivi-intervention-technicien textarea,
+.suivi-intervention-technicien select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.suivi-intervention-technicien label {
+  font-weight: bold;
+  display: block;
+  margin-top: 15px;
+}
+
+.suivi-intervention-technicien button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.suivi-intervention-technicien button:nth-child(1) {
+  background-color: #4b8ec9;
+  color: white;
+}
+
+.suivi-intervention-technicien button:nth-child(2) {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.suivi-intervention-technicien button:hover {
+  opacity: 0.9;
+}
