@@ -29,6 +29,8 @@ import SuiviInterventionTechnicien from './Components/Profiles/Technicien/SideBa
 import SuiviPaiement from './Components/Profiles/Comptable/SideBarComptable/Pages/suiviPaiement';
 import SuiviFacturesClient from './Components/Profiles/Client/SideBarClient/Pages/SuiviFacturesClientt';
 import Evaluation from './Components/Profiles/Client/SideBarClient/Pages/evaluation';
+import DashboardClient from './Components/Profiles/Client/SideBarClient/Pages/DashboardClient';
+import DashboardTechnicien from './Components/Profiles/Technicien/SideBarTechnicien/Pages/DashboardTechnicien';
   
 function App() {
   return (
@@ -58,7 +60,7 @@ function App() {
 
         {/* Routes du profil technicien */}
         <Route path="/profiles/technicien" element={<TechnicienProfile />}>
-          <Route index element={<DashboardComptable />} />
+          <Route index element={<DashboardTechnicien />} />
           <Route path="geolocalisation" element={<Geolocalisation />} />
           <Route path="prise-rendez-vous" element={<RendezVousTechnicien />} />
           <Route path="materiels" element={<MaterielManager />} />
@@ -68,7 +70,7 @@ function App() {
         </Route>
         {/* Routes du profil client*/}
         <Route path="/profiles/client" element={<ClientProfile />}>
-          <Route index element={<DashboardComptable />} />
+          <Route index element={<DashboardClient />} />
           <Route path="creer-intervention" element={<Demande />} />
           <Route path="suivi-technicien" element={<SuiviTechnicienClient />} />
            <Route path="mes-interventions" element={<RendezVousClient />} />
