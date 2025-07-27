@@ -65,6 +65,7 @@ export const deleteClient = async (id) => {
     throw error;
   }
 };
+ 
 
 
 // Récupérer tous les utilisateurs
@@ -423,6 +424,74 @@ export const deleteEvaluation = async (id) => {
     return response.data;
   } catch (error) {
     console.error("Erreur suppression évaluation:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+//admin
+
+// 👉 1. Créer un admin (inscription)
+export const createAdmin = async (admin) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/admin`, admin);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur création admin:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+// 👉 2. Connexion admin
+export const signInAdmin = async (credentials) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/admin/signin`, credentials);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur connexion admin:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+// 👉 3. Récupérer tous les admins
+export const getAdmins = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/admin`);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur récupération admins:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+// 👉 4. Récupérer un admin par ID
+export const getAdminById = async (id) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/admin/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur récupération admin par ID:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+// 👉 5. Mettre à jour un admin
+export const updateAdmin = async (id, data) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/admin/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur mise à jour admin:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+// 👉 6. Supprimer un admin
+export const deleteAdmin = async (id) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/admin/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erreur suppression admin:", error.response?.data || error.message);
     throw error;
   }
 };

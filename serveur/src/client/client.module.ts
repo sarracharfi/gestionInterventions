@@ -1,4 +1,3 @@
-// src/client/client.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Client } from './client.entity';
@@ -9,6 +8,6 @@ import { ClientController } from './client.controller';
   imports: [TypeOrmModule.forFeature([Client])],
   controllers: [ClientController],
   providers: [ClientService],
-  exports: [TypeOrmModule], 
+  exports: [ClientService], // ⚠️ important pour AdminModule
 })
 export class ClientModule {}

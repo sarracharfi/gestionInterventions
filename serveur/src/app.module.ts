@@ -15,6 +15,7 @@ import { MaterielModule } from './materiel/materiel.module';
 import { ClientModule } from './client/client.module';
 import { DemandeInterventionModule } from './demande-intervention/demande-intervention.module';
 import { EvaluationModule } from './evaluation/evaluation.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { EvaluationModule } from './evaluation/evaluation.module';
     ClientModule,
     DemandeInterventionModule,
     EvaluationModule,
+    AdminModule,
   ],
   controllers: [AppController],  
   providers: [AppService],       

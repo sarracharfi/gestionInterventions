@@ -31,6 +31,12 @@ import SuiviFacturesClient from './Components/Profiles/Client/SideBarClient/Page
 import Evaluation from './Components/Profiles/Client/SideBarClient/Pages/evaluation';
 import DashboardClient from './Components/Profiles/Client/SideBarClient/Pages/DashboardClient';
 import DashboardTechnicien from './Components/Profiles/Technicien/SideBarTechnicien/Pages/DashboardTechnicien';
+import AdminProfile from './Components/Profiles/Admin/AdminProfile';
+import FormulaireAdmin from './Components/Formulaires/FormulaireAdmin/FormulaireAdmin';
+import AdminClientsGestion from './Components/Profiles/Admin/SideBarAdmin/Pages/GestionClient';
+import AdminTechniciensGestion from './Components/Profiles/Admin/SideBarAdmin/Pages/GestionTechnicien';
+import AdminComptablesGestion from './Components/Profiles/Admin/SideBarAdmin/Pages/GestionComptable';
+import DashboardAdmin from './Components/Profiles/Admin/SideBarAdmin/Pages/DashboardAdmin';
   
 function App() {
   return (
@@ -47,6 +53,9 @@ function App() {
           <Route path="comptable" element={<FormulaireComptable />} />
           <Route path="technicien" element={<FormulaireTechnicien />} />
           <Route path="client" element={<FormulaireClient />} />
+          <Route path="admin" element={<FormulaireAdmin />} />
+
+    
         </Route>
 
         {/* Routes du profil comptable */}
@@ -57,6 +66,7 @@ function App() {
           <Route path="parametres-facturation" element={<RendezVous />} />
              <Route path="suivi-paiements" element={<SuiviPaiement />} />
         </Route>
+       
 
         {/* Routes du profil technicien */}
         <Route path="/profiles/technicien" element={<TechnicienProfile />}>
@@ -77,6 +87,13 @@ function App() {
            <Route path="factures-client" element={<SuiviFacturesClient />} />
              <Route path="avis-technicien" element={<Evaluation />} />
         </Route>
+         {/* Routes du profil client*/}
+        <Route path="/profiles/admin" element={<AdminProfile/>}>
+           <Route index element={<DashboardAdmin/>} />
+         <Route path="clients" element={<AdminClientsGestion />} />
+          <Route path="techniciens" element={<AdminTechniciensGestion/>} />
+           <Route path="comptables" element={<AdminComptablesGestion/>} />
+         </Route>
       </Routes>
     </Router>
   );

@@ -1,0 +1,66 @@
+/* AdminDashboard.css */
+.admin-dashboard {
+  padding: 2rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0e7ff, #fef9ff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-dashboard h2 {
+  font-size: 32px;
+  margin-bottom: 2rem;
+  color: #2c2c54;
+  text-align: center;
+}
+
+.dashboard-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.dashboard-card {
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  border-radius: 16px;
+  box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.12),
+              -8px -8px 20px rgba(255, 255, 255, 0.8);
+  padding: 2rem;
+  width: 280px;
+  height: 260px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 12px 12px 25px rgba(0, 0, 0, 0.15),
+              -6px -6px 15px rgba(255, 255, 255, 0.7);
+}
+
+.dashboard-card .icon {
+  font-size: 48px;
+  margin-bottom: 1rem;
+  color: #6c5ce7;
+  transition: color 0.3s;
+}
+
+.dashboard-card:hover .icon {
+  color: #4834d4;
+}
+
+.dashboard-card h3 {
+  font-size: 22px;
+  color: #1e272e;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-card p {
+  font-size: 15px;
+  color: #636e72;
+}
