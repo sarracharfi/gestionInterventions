@@ -435,7 +435,7 @@ export const createAdmin = async (admin) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/admin`, admin);
     return response.data;
-  } catch (error) {
+  } catch (error){
     console.error("Erreur création admin:", error.response?.data || error.message);
     throw error;
   }
@@ -492,6 +492,97 @@ export const deleteAdmin = async (id) => {
     return response.data;
   } catch (error) {
     console.error("Erreur suppression admin:", error.response?.data || error.message);
+    throw error;
+  }
+};
+////IA
+// Récupérer la liste des interventions
+export const getInterventions = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/interventions');
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la récupération des interventions', error);
+    throw error;
+  }
+};
+
+// Upload du rapport (avec suivi de progression)
+export const uploadRapport = async (file, onUploadProgress) => {
+  const formData = new FormData();
+  formData.append('rapport', file);
+
+  try {
+    const response = await axios.post('http://localhost:3000/api/upload-rapport', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      onUploadProgress: (progressEvent) => {
+        if (onUploadProgress) {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          onUploadProgress(percentCompleted);
+        }
+      },
+    });
+    return response.data; // Supposons que l'API renvoie { filename: 'nomfichier.pdf' }
+  } catch (error) {
+    console.error('Erreur lors de l\'upload du rapport', error);
+    throw error;
+  }
+};
+
+// Création de la soumission du rapport liée à une intervention
+export const createRapportSubmission = async ({ interventionId, rapport }) => {
+  try {
+    const response = await axios.post('http://localhost:3000/api/rapport-submission', {
+      interventionId,
+      rapport,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la création de la soumission', error);
+    throw error;
+  }
+};
+
+// Appel à l'assistant IA (par exemple, avec un CV, un fichier intervention, et une question)
+export const executeAIAssistant = async ({ resumeFile, interventionFile, question }) => {
+  const formData = new FormData();
+
+  if (!resumeFile) {
+    throw new Error('Resume file is missing');
+  }
+  if (!(resumeFile instanceof File)) {
+    console.error('Invalid resume file type:', resumeFile);
+    throw new Error('Resume file must be a valid File object');
+  }
+  formData.append('files', resumeFile, 'resume.pdf');
+
+  if (!interventionFile) {
+    throw new Error('Intervention file is missing');
+  }
+  if (!(interventionFile instanceof File)) {
+    console.error('Invalid intervention file type:', interventionFile);
+    throw new Error('Intervention file must be a valid File object');
+  }
+  formData.append('files', interventionFile, 'intervention.json');
+
+  if (!question || typeof question !== 'string') {
+    throw new Error('Question must be a non-empty string');
+  }
+  formData.append('question', question);
+
+  for (let [key, value] of formData.entries()) {
+    console.log(`FormData entry: ${key}=${value.name || value}`);
+  }
+
+  try {
+    const response = await axios.post('http://localhost:3000/api/analyze', formData);
+    return response.data;
+  } catch (error) {
+    console.error('Error with AI Assistant:', error);
     throw error;
   }
 };

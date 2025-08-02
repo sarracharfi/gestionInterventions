@@ -6,7 +6,7 @@ const RendezVous = () => {
     <div className="rendezvous-page">
       <iframe
         className="rendezvous-calendar"
-        src="https://calendly.com/sarracharfi1999/comptable-1"
+        src="https://calendly.com/ghofranxmanaii/comptable"
         title="Calendrier"
         frameBorder="0"
         allowFullScreen

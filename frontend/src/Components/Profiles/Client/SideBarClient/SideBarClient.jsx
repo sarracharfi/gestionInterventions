@@ -40,6 +40,7 @@ const SideBarClient = () => {
                     <li className={location.pathname.includes("/suivi-technicien") ? styles.active : ""}>
                         <NavLink to="suivi-technicien">Suivi du Technicien</NavLink>
                     </li>
+                    
                     <li className={location.pathname.includes("/factures-client") ? styles.active : ""}>
                         <NavLink to="factures-client">Mes Factures</NavLink>
                     </li>

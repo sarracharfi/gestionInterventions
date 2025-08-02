@@ -12,7 +12,7 @@ import FormulaireTechnicien from './Components/Formulaires/FormulaireTechnicien/
 import ComptableProfile from './Components/Profiles/Comptable/ComptableProfile';
 import DashboardComptable from './Components/Profiles/Comptable/SideBarComptable/Pages/DashboardComptable';
 import Facture from './Components/Profiles/Comptable/SideBarComptable/Pages/Facture';
- import Rapport from './Components/Profiles/Comptable/SideBarComptable/Pages/Rapport';
+import Rapport from './Components/Profiles/Comptable/SideBarComptable/Pages/Rapport';
 import RendezVous from './Components/Profiles/Comptable/SideBarComptable/Pages/Rendez-vous';
 
 import TechnicienProfile from './Components/Profiles/Technicien/TechnicienProfile';
@@ -55,7 +55,7 @@ function App() {
           <Route path="client" element={<FormulaireClient />} />
           <Route path="admin" element={<FormulaireAdmin />} />
 
-    
+
         </Route>
 
         {/* Routes du profil comptable */}
@@ -64,9 +64,9 @@ function App() {
           <Route path="factures" element={<Facture />} />
           <Route path="rapports-financiers" element={<Rapport />} />
           <Route path="parametres-facturation" element={<RendezVous />} />
-             <Route path="suivi-paiements" element={<SuiviPaiement />} />
+          <Route path="suivi-paiements" element={<SuiviPaiement />} />
         </Route>
-       
+
 
         {/* Routes du profil technicien */}
         <Route path="/profiles/technicien" element={<TechnicienProfile />}>
@@ -75,25 +75,26 @@ function App() {
           <Route path="prise-rendez-vous" element={<RendezVousTechnicien />} />
           <Route path="materiels" element={<MaterielManager />} />
           <Route path="rapports" element={<RapportInterventions />} />
-          <Route path='interventions' element={<SuiviInterventionTechnicien/>} />
+          <Route path='interventions' element={<SuiviInterventionTechnicien />} />
 
         </Route>
-        {/* Routes du profil client*/}
+        {/* Routes du profil client */}
         <Route path="/profiles/client" element={<ClientProfile />}>
           <Route index element={<DashboardClient />} />
           <Route path="creer-intervention" element={<Demande />} />
           <Route path="suivi-technicien" element={<SuiviTechnicienClient />} />
-           <Route path="mes-interventions" element={<RendezVousClient />} />
-           <Route path="factures-client" element={<SuiviFacturesClient />} />
-             <Route path="avis-technicien" element={<Evaluation />} />
+          <Route path="mes-interventions" element={<RendezVousClient />} />
+          <Route path="factures-client" element={<SuiviFacturesClient />} />
+          <Route path="avis-technicien" element={<Evaluation />} />
+ 
         </Route>
-         {/* Routes du profil client*/}
-        <Route path="/profiles/admin" element={<AdminProfile/>}>
-           <Route index element={<DashboardAdmin/>} />
-         <Route path="clients" element={<AdminClientsGestion />} />
-          <Route path="techniciens" element={<AdminTechniciensGestion/>} />
-           <Route path="comptables" element={<AdminComptablesGestion/>} />
-         </Route>
+        {/* Routes du profil client*/}
+        <Route path="/profiles/admin" element={<AdminProfile />}>
+          <Route index element={<DashboardAdmin />} />
+          <Route path="clients" element={<AdminClientsGestion />} />
+          <Route path="techniciens" element={<AdminTechniciensGestion />} />
+          <Route path="comptables" element={<AdminComptablesGestion />} />
+        </Route>
       </Routes>
     </Router>
   );

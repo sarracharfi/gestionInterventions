@@ -16,7 +16,7 @@ export class CreateDemandeInterventionDto {
 
   @IsOptional()
   @IsDateString()
-  dateIntervention?: string; // string format date ISO
+  dateIntervention?: string;  
 
   @IsNotEmpty()
   clientId: string;

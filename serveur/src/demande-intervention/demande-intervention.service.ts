@@ -67,8 +67,7 @@ export class DemandeInterventionService {
 
     const saved = await this.demandeRepository.save(demande);
 
-    // Émission socket pour notifier changement de statut
-    this.gateway.sendStatusUpdate(saved.id, saved.status, saved.titre);
+     this.gateway.sendStatusUpdate(saved.id, saved.status, saved.titre);
 
     return saved;
   }
@@ -83,8 +82,7 @@ export class DemandeInterventionService {
     demande.status = status;
     const saved = await this.demandeRepository.save(demande);
 
-    // Émission socket pour notifier changement de statut
-    this.gateway.sendStatusUpdate(saved.id, saved.status, saved.titre);
+     this.gateway.sendStatusUpdate(saved.id, saved.status, saved.titre);
 
     return saved;
   }

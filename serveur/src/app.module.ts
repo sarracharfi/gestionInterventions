@@ -16,7 +16,11 @@ import { ClientModule } from './client/client.module';
 import { DemandeInterventionModule } from './demande-intervention/demande-intervention.module';
 import { EvaluationModule } from './evaluation/evaluation.module';
 import { AdminModule } from './admin/admin.module';
-
+ import { CloudflareModule } from './cloudflare/cloudflare.module';
+import { AnalyzeService } from './analyze/analyze.service';
+import { AnalyzeController } from './analyze/analyze.controller';
+import { AnalyzeModule } from './analyze/analyze.module';
+ 
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -46,8 +50,10 @@ import { AdminModule } from './admin/admin.module';
     DemandeInterventionModule,
     EvaluationModule,
     AdminModule,
-  ],
-  controllers: [AppController],  
-  providers: [AppService],       
+    CloudflareModule,
+    AnalyzeModule,
+   ],
+  controllers: [AppController, AnalyzeController ],  
+  providers: [AppService, AnalyzeService],       
 })
 export class AppModule {}
