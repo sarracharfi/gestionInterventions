@@ -176,18 +176,18 @@
   color: #ffffff;
 }
 
-/* Bulle de chat flottante (adaptée au thème avec #007acc) - Taille un peu plus grande (70px) */
+/* Bulle de chat flottante (adaptée au thème avec #007acc) - Taille augmentée à 80px */
 .chatBubble {
   position: fixed;
   bottom: 25px;
   right: 25px;
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   background-color: #007acc; /* Couleur principale du thème */
   color: white;
   border: none;
   border-radius: 50%;
-  font-size: 32px; /* Icône plus grande pour la taille accrue */
+  font-size: 36px; /* Icône plus grande pour la taille accrue */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -205,7 +205,7 @@
 /* Modal de chat (adaptée au thème) */
 .chatModal {
   position: fixed;
-  bottom: 105px; /* Positionnée juste au-dessus de la bulle plus grande */
+  bottom: 115px; /* Ajusté pour la bulle plus grande */
   right: 25px;
   width: 100%;
   max-width: 360px; /* Largeur compacte comme Messenger */
@@ -272,8 +272,8 @@
   .chatBubble {
     bottom: 20px;
     right: 20px;
-    width: 60px;
-    height: 60px;
-    font-size: 28px;
+    width: 70px; /* Taille légèrement réduite sur mobile */
+    height: 70px;
+    font-size: 32px;
   }
 }
