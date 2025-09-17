@@ -44,6 +44,7 @@ function Summary({file}) {
       <section className="summary">
 
         <img src={file.imageUrl} alt="Preview Image" />
+        <h2>Summary</h2>
         {
           status === 'loading' ?
           <Loader /> :

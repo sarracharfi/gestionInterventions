@@ -1,5 +1,4 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import './chat.css'
 import { useState } from 'react'
 
 function Chat({file}) {

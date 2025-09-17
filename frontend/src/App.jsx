@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Accueil from "./Components/Accueil/Accueil";
@@ -40,80 +40,61 @@ import AdminTechniciensGestion from './Components/Profiles/Admin/SideBarAdmin/Pa
 import AdminComptablesGestion from './Components/Profiles/Admin/SideBarAdmin/Pages/GestionComptable';
 import DashboardAdmin from './Components/Profiles/Admin/SideBarAdmin/Pages/DashboardAdmin';
 
-import Header from './Components/Chat/Header';
-import FileUpload from './Components/Chat/FileUpload';
-import Summary from './Components/Chat/Summary';
-import Chat from './Components/Chat/Chat';
-
 function App() {
-  const [uploadedFile, setUploadedFile] = useState(null);
-
   return (
     <Router>
-      <Header />
-      <main className="container">
-        {uploadedFile ? (
-          <>
-            <Summary file={uploadedFile} />
-            <Chat file={uploadedFile} />
-          </>
-        ) : (
-          <FileUpload setFile={setUploadedFile} />
-        )}
+      <Routes>
+        {/* Routes publiques */}
+        <Route path="/" element={<Accueil />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/searchBar" element={<SearchBar />} />
+        <Route path="/about" element={<About />} />
 
-        <Routes>
-          {/* Routes publiques */}
-          <Route path="/" element={<Accueil />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/searchBar" element={<SearchBar />} />
-          <Route path="/about" element={<About />} />
+        {/* Routes des formulaires d'inscription */}
+        <Route path="/signup">
+          <Route path="comptable" element={<FormulaireComptable />} />
+          <Route path="technicien" element={<FormulaireTechnicien />} />
+          <Route path="client" element={<FormulaireClient />} />
+          <Route path="admin" element={<FormulaireAdmin />} />
+        </Route>
 
-          {/* Routes des formulaires d'inscription */}
-          <Route path="/signup">
-            <Route path="comptable" element={<FormulaireComptable />} />
-            <Route path="technicien" element={<FormulaireTechnicien />} />
-            <Route path="client" element={<FormulaireClient />} />
-            <Route path="admin" element={<FormulaireAdmin />} />
-          </Route>
+        {/* Routes du profil comptable */}
+        <Route path="/profiles/comptable" element={<ComptableProfile />}>
+          <Route index element={<DashboardComptable />} />
+          <Route path="factures" element={<Facture />} />
+          <Route path="rapports-financiers" element={<Rapport />} />
+          <Route path="parametres-facturation" element={<RendezVous />} />
+          <Route path="suivi-paiements" element={<SuiviPaiement />} />
+        </Route>
 
-          {/* Routes du profil comptable */}
-          <Route path="/profiles/comptable" element={<ComptableProfile />}>
-            <Route index element={<DashboardComptable />} />
-            <Route path="factures" element={<Facture />} />
-            <Route path="rapports-financiers" element={<Rapport />} />
-            <Route path="parametres-facturation" element={<RendezVous />} />
-            <Route path="suivi-paiements" element={<SuiviPaiement />} />
-          </Route>
+        {/* Routes du profil technicien */}
+        <Route path="/profiles/technicien" element={<TechnicienProfile />}>
+          <Route index element={<DashboardTechnicien />} />
+          <Route path="geolocalisation" element={<Geolocalisation />} />
+          <Route path="prise-rendez-vous" element={<RendezVousTechnicien />} />
+          <Route path="materiels" element={<MaterielManager />} />
+          <Route path="rapports" element={<RapportInterventions />} />
+          <Route path="interventions" element={<SuiviInterventionTechnicien />} />
+        </Route>
 
-          {/* Routes du profil technicien */}
-          <Route path="/profiles/technicien" element={<TechnicienProfile />}>
-            <Route index element={<DashboardTechnicien />} />
-            <Route path="geolocalisation" element={<Geolocalisation />} />
-            <Route path="prise-rendez-vous" element={<RendezVousTechnicien />} />
-            <Route path="materiels" element={<MaterielManager />} />
-            <Route path="rapports" element={<RapportInterventions />} />
-            <Route path='interventions' element={<SuiviInterventionTechnicien />} />
-          </Route>
+        {/* Routes du profil client */}
+        <Route path="/profiles/client" element={<ClientProfile />}>
+          <Route index element={<DashboardClient />} />
+          <Route path="creer-intervention" element={<Demande />} />
+          <Route path="suivi-technicien" element={<SuiviTechnicienClient />} />
+          <Route path="mes-interventions" element={<RendezVousClient />} />
+          <Route path="factures-client" element={<SuiviFacturesClient />} />
+          <Route path="avis-technicien" element={<Evaluation />} />
+        </Route>
 
-          {/* Routes du profil client */}
-          <Route path="/profiles/client" element={<ClientProfile />}>
-            <Route index element={<DashboardClient />} />
-            <Route path="creer-intervention" element={<Demande />} />
-            <Route path="suivi-technicien" element={<SuiviTechnicienClient />} />
-            <Route path="mes-interventions" element={<RendezVousClient />} />
-            <Route path="factures-client" element={<SuiviFacturesClient />} />
-            <Route path="avis-technicien" element={<Evaluation />} />
-          </Route>
-
-          {/* Routes du profil admin */}
-          <Route path="/profiles/admin" element={<AdminProfile />}>
-            <Route index element={<DashboardAdmin />} />
-            <Route path="clients" element={<AdminClientsGestion />} />
-            <Route path="techniciens" element={<AdminTechniciensGestion />} />
-            <Route path="comptables" element={<AdminComptablesGestion />} />
-          </Route>
-        </Routes>
-      </main>
+        {/* Routes du profil admin */}
+        <Route path="/profiles/admin" element={<AdminProfile />}>
+          <Route index element={<DashboardAdmin />} />
+          <Route path="clients" element={<AdminClientsGestion />} />
+          <Route path="techniciens" element={<AdminTechniciensGestion />} />
+          <Route path="comptables" element={<AdminComptablesGestion />} />
+        </Route>
+      </Routes>
     </Router>
   );
 }
